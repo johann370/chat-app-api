@@ -9,13 +9,13 @@ DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_pa
 
 engine = create_engine(DATABASE_URL)
 
-Session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 Base = declarative_base()
 
 
 def get_db():
-    db = Session()
+    db = SessionLocal()
     try:
         yield db
     finally:
