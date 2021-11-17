@@ -36,5 +36,18 @@ class Members(Base):
         "users.id", ondelete="CASCADE"), nullable=False, primary_key=True)
     server_id = Column(Integer, ForeignKey(
         "servers.id", ondelete="CASCADE"), nullable=False, primary_key=True)
-
     user = relationship("User")
+
+
+class Message(Base):
+    __tablename__ = "messages"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    content = Column(String, nullable=False)
+    server_id = Column(Integer, ForeignKey(
+        "servers.id", ondelete="CASCADE"), nullable=False)
+    author_id = Column(Integer, ForeignKey(
+        "users.id", ondelete="CASCADE"), nullable=False)
+    timestamp = Column(TIMESTAMP(timezone=True),
+                       nullable=False, server_default=Text("NOW()"))
+    author = relationship("User")

@@ -1,5 +1,6 @@
 from typing import List, Set, Optional
 from pydantic import BaseModel, EmailStr
+from datetime import datetime
 
 
 class UserBase(BaseModel):
@@ -54,3 +55,20 @@ class Member(BaseModel):
 
 class MemberOut(Member):
     user: UserOut
+
+
+class Message(BaseModel):
+    content: str
+
+
+class MessageIn(Message):
+    pass
+
+
+class MessageOut(Message):
+    server_id: int
+    timestamp: datetime
+    author: UserOut
+
+    class Config:
+        orm_mode = True
