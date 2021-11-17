@@ -63,6 +63,12 @@ def join_server(id: int, db: Session = Depends(get_db), current_user=Depends(oau
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail=f"User with id: {current_user.id} already joined server with id: {id}")
 
+    server = db.query(models.Server).filter(models.Server.id == id).first()
+
+    if not server:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Server with id: {id} does not exist")
+
     new_member = models.Members(user_id=current_user.id, server_id=id)
     db.add(new_member)
     db.commit()
