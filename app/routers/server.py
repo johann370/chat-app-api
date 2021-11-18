@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.ServerOut)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.ServerBase)
 def create_server(server: schemas.ServerIn, db: Session = Depends(get_db), current_user=Depends(oauth2.get_current_user)):
     server_check = db.query(models.Server).filter(
         models.Server.name == server.name).first()
