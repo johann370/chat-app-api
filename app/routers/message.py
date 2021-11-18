@@ -18,6 +18,13 @@ def create_message(id: int, message: schemas.MessageIn, db: Session = Depends(ge
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Server with id: {id} does not exist")
 
+    member_check = db.query(models.Members).filter(
+        models.Members.user_id == current_user.id, models.Members.server_id == id).first()
+
+    if not member_check:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail=f"User with id: {current_user.id} is not in server with id: {id}")
+
     new_message = models.Message(
         server_id=id, author_id=current_user.id, **message.dict())
 
