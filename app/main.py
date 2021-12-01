@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = ["*"]
+origins = ["https://chat-website-with-api.hostman.site"]
 
 app.add_middleware(
     CORSMiddleware,
