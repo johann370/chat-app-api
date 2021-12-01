@@ -37,6 +37,7 @@ class Members(Base):
     server_id = Column(Integer, ForeignKey(
         "servers.id", ondelete="CASCADE"), nullable=False, primary_key=True)
     user = relationship("User")
+    server = relationship("Server")
 
 
 class Message(Base):

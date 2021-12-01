@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, status, HTTPException, Depends
 from sqlalchemy.orm import Session
 from .. import models, schemas, utils
@@ -39,3 +40,15 @@ def get_user(id: int, db: Session = Depends(get_db)):
                             detail=f"User with id: {id} does not exist")
 
     return user
+
+
+@router.get("/{id}/servers", response_model=List[schemas.UserServer])
+def get_joined_servers(id: int, db: Session = Depends(get_db)):
+    joined_servers = db.query(models.Members).join(models.Server, models.Server.id == models.Members.server_id, isouter=True).filter(
+        models.Members.user_id == id).all()
+
+    if not joined_servers:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with id: {id} does not have any joined_servers")
+
+    return joined_servers

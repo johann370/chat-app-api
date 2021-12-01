@@ -72,3 +72,11 @@ class MessageOut(Message):
 
     class Config:
         orm_mode = True
+
+
+class UserServer(BaseModel):
+    server: ServerBase
+    server_id: int
+
+    class Config:
+        orm_mode = True
